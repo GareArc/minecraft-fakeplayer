@@ -33,6 +33,9 @@ buildNumber.properties
 # Package Files #
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
+
+# Gradle runtime cache
+.gradle/
 *.war
 *.nar
 *.ear

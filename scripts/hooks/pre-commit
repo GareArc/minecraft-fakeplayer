@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Pre-commit hook: lightweight sanity checks before every commit.
+
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+RED='\033[0;31m'; GREEN='\033[0;32m'; NC='\033[0m'
+
+ERRORS=0
+fail() { echo -e "${RED}pre-commit:${NC} $*" >&2; ERRORS=$((ERRORS+1)); }
+ok()   { echo -e "${GREEN}pre-commit:${NC} $*"; }
+
+# 1. Prevent committing gradle.properties with a SNAPSHOT revision
+REVISION=$(grep '^revision' "$ROOT/gradle.properties" | cut -d= -f2)
+if [[ "$REVISION" == *"-SNAPSHOT"* ]]; then
+  fail "gradle.properties: revision '$REVISION' contains -SNAPSHOT — bump to a release version before committing."
+fi
+
+# 2. Warn if lib/ JARs are accidentally staged (they are .gitignored but just in case)
+STAGED=$(git diff --cached --name-only)
+if echo "$STAGED" | grep -q '^lib/.*\.jar$'; then
+  fail "Staged files include JARs under lib/ — these should not be committed."
+fi
+
+# 3. Warn if .class files are staged
+if echo "$STAGED" | grep -q '\.class$'; then
+  fail "Staged files include .class files — run 'make clean' and re-stage."
+fi
+
+if [[ $ERRORS -gt 0 ]]; then
+  echo "" >&2
+  echo -e "${RED}Commit blocked by $ERRORS pre-commit check(s). Fix above issues first.${NC}" >&2
+  exit 1
+fi
+
+exit 0

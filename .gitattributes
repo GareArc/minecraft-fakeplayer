@@ -1,1 +1,20 @@
+# Normalize line endings to LF on commit, check out as LF everywhere
+* text=auto eol=lf
+
+# Gradle wrapper scripts
+gradlew text eol=lf
+gradlew.bat text eol=crlf
+
+# Shell scripts: force LF
+*.sh text eol=lf
+
+# Windows scripts: force CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files — never diff or merge
+*.jar binary
+*.class binary
 *.png binary
+*.gif binary
+*.ico binary
