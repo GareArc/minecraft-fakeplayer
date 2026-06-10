@@ -14,7 +14,7 @@ dependencies {
     compileOnly("io.netty:netty-transport:4.1.82.Final")
 
     compileOnly(files("${rootProject.projectDir}/lib/OpenInv.jar"))
-    compileOnly(files("${rootProject.projectDir}/lib/PlaceholderAPI-2.11.6.jar"))
+    compileOnly("me.clip:placeholderapi:2.11.6")
 }
 
 tasks.processResources {

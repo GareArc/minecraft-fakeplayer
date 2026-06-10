@@ -53,21 +53,16 @@ fi
 # ── 3. lib/ JARs ──────────────────────────────────────────────────────────────
 LIB_DIR="$ROOT/lib"
 OPENINV="$LIB_DIR/OpenInv.jar"
-PAPI="$LIB_DIR/PlaceholderAPI-2.11.6.jar"
 
 if [[ -f "$OPENINV" ]]; then
   ok "lib/OpenInv.jar present"
 else
-  warn "lib/OpenInv.jar missing — optional integration will not compile against it"
+  warn "lib/OpenInv.jar missing — OpenInv integration will not compile"
   warn "  Get it from: https://www.spigotmc.org/resources/open-inv.54402/"
+  warn "  CI downloads it automatically from GitHub Releases"
 fi
 
-if [[ -f "$PAPI" ]]; then
-  ok "lib/PlaceholderAPI-2.11.6.jar present"
-else
-  warn "lib/PlaceholderAPI-2.11.6.jar missing — optional integration will not compile against it"
-  warn "  Get it from: https://www.spigotmc.org/resources/placeholderapi.6245/"
-fi
+info "PlaceholderAPI resolved from Maven (no local JAR needed)"
 
 # ── 4. Git hooks ──────────────────────────────────────────────────────────────
 if $CHECK_ONLY; then

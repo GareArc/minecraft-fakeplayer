@@ -23,8 +23,7 @@ A practical guide to building, modifying, and extending fakeplayer.
 |---|---|---|
 | Java JDK | **21** | Compile and run target. All NMS modules ≥ 1.21 require JDK 21. Modules 1.20.x compile to Java 17 source level but the JDK itself must still be 21+. |
 | Internet (build-time only) | — | First build downloads Paper dev bundles from `https://repo.papermc.io/repository/maven-public/`. Cached locally after that. |
-| `lib/OpenInv.jar` | optional | Enables the OpenInv integration. Without it, the integration is silently disabled at runtime. |
-| `lib/PlaceholderAPI-2.11.6.jar` | optional | Enables PlaceholderAPI support. |
+| `lib/OpenInv.jar` | optional | Enables the OpenInv integration. Place the JAR here for local development; CI downloads it automatically from GitHub Releases. |
 
 The Gradle wrapper (`./gradlew`) is included — no separate Gradle installation is needed.
 
@@ -257,6 +256,36 @@ These run `scripts/bump-version.sh` which edits `gradle.properties` in-place.
 5. `git tag v<version>`
 6. `git push && git push --tags`
 7. Attach `build/libs/fakeplayer-<version>.jar` to the GitHub release
+
+---
+
+## CI / CD
+
+Two GitHub Actions workflows live in `.github/workflows/`:
+
+| Workflow | Trigger | What it does |
+|---|---|---|
+| `ci.yml` | Every push and PR | Downloads OpenInv from GitHub Releases, builds the fat JAR, uploads it as a workflow artifact (kept 7 days) |
+| `release.yml` | Push of a `v*` tag | Same build, then publishes a GitHub Release with the JAR attached and auto-generated release notes |
+
+### Releasing a new version
+
+```bash
+make bump-patch          # or bump-minor / bump-major
+git add gradle.properties
+git commit -m "chore: bump version to $(make version)"
+git tag v$(make version)
+git push && git push --tags
+```
+
+The `release.yml` workflow fires on the tag push and creates the GitHub Release automatically.
+
+### Dependency notes
+
+- **PlaceholderAPI** is resolved from the extendedclip Maven repository — no local JAR needed.
+- **OpenInv** has no public Maven repository; CI fetches the latest release JAR from
+  `lishid/OpenInv` via the GitHub API. For local development, place your own copy at
+  `lib/OpenInv.jar`.
 
 ---
 
