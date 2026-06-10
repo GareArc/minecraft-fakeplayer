@@ -88,7 +88,7 @@ public final class Main extends JavaPlugin {
     public void checkForUpdatesAsync() {
         CompletableFuture.runAsync(() -> {
             var meta = this.getPluginMeta();
-            var checker = new UpdateChecker("tanyaofei", "minecraft-fakeplayer");
+            var checker = new UpdateChecker("garearc", "minecraft-fakeplayer");
             try {
                 var release = checker.getLastRelease();
 

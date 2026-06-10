@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.InetAddress;
 import java.util.Set;
@@ -45,6 +46,17 @@ public class NMSBridgeImpl implements NMSBridge {
     @Override
     public boolean isSupported() {
         return SUPPORTS.contains(Bukkit.getMinecraftVersion());
+    }
+
+    /**
+     * This bridge is registered as a best-effort fallback for future 1.21.x versions
+     * that share the same NMS revision (CraftBukkit v1_21_R6). When a new minor 1.21.x
+     * release is published and no exact bridge exists, this implementation will be used
+     * automatically until the plugin ships explicit support.
+     */
+    @Override
+    public @Nullable String getMinCompatibleVersion() {
+        return "1.21.9";
     }
 
     @Override
