@@ -86,6 +86,12 @@ The CraftBukkit *revision* (`v1_21_R5`, `v1_21_R6`, …) is separate from the Sp
 artifact version (`1.21.7-R0.1-SNAPSHOT`). The revision only bumps when Bukkit breaks its
 API contract; multiple patch versions share the same revision.
 
+> **Paper 1.21.11 breaking change**: Paper dropped Spigot reobf mappings entirely starting
+> with 1.21.11. CraftBukkit (`org.bukkit.craftbukkit`) classes no longer carry the version
+> prefix (e.g. `v1_21_R6`). All OBC imports become `org.bukkit.craftbukkit.*` with no
+> revision prefix. The plugin JAR is loaded with Mojang-mapped class names directly — no
+> specialsource remapping step needed.
+
 | Minecraft | CraftBukkit package | Module(s) |
 |---|---|---|
 | 1.21 | v1_21_R1 | fakeplayer-v1_21 |
@@ -96,4 +102,24 @@ API contract; multiple patch versions share the same revision.
 | 1.21.6 | v1_21_R5 | fakeplayer-v1_21_6 |
 | 1.21.7, 1.21.8 | v1_21_R5 | fakeplayer-v1_21_7, _8 (thin wrappers over v1_21_6) |
 | 1.21.9, 1.21.10 | v1_21_R6 | fakeplayer-v1_21_9 (full), _10 (thin wrapper) |
-| 1.21.11+ | v1_21_R6 (assumed) | auto-fallback via v1_21_10; or add thin wrapper |
+| 1.21.11+ | no prefix (Mojang) | fakeplayer-v1_21_11 (full); future patches auto-fallback |
+
+## Case 3: Paper dropped Spigot reobf (1.21.11+)
+
+Starting with 1.21.11, Paper no longer ships with Spigot-obfuscated class names.
+This is a **full implementation** (like Case 2), but with different import style and no remapping.
+
+1. Follow steps 1-6 from Case 1, but **omit the specialsource plugin** from `pom.xml`.
+   The compiled output stays Mojang-mapped and Paper loads it directly.
+
+2. Copy all source files from `fakeplayer-v1_21_11` (the reference implementation).
+
+3. Change **all OBC imports**: `org.bukkit.craftbukkit.v1_21_R6.*` → `org.bukkit.craftbukkit.*`
+   (remove the `v1_21_R6` segment entirely).
+
+4. NMS imports (`net.minecraft.*`) remain the same — they were already Mojang-mapped.
+
+5. Fix any compilation errors from NMS API changes as in Case 2 step 4.
+
+6. In `NMSBridgeImpl`, set `SUPPORTS = Set.of("1.21.X")` and
+   `getMinCompatibleVersion() = "1.21.X"` (the new fallback anchor).

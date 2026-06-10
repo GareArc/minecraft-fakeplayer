@@ -24,8 +24,8 @@ This fork includes a **smart NMS fallback mechanism** that extends support beyon
 
 | Minecraft Version | Status |
 |---|---|
-| 1.20.1 – 1.21.10 | Fully supported (explicit NMS bridge) |
-| Future 1.21.x (e.g. 1.21.11+) | Best-effort via 1.21.10 fallback (same NMS revision assumed) |
+| 1.20.1 – 1.21.11 | Fully supported (explicit NMS bridge) |
+| Future 1.21.x (e.g. 1.21.12+) | Best-effort via 1.21.11 fallback (Mojang-mapped NMS assumed) |
 | 1.22.x and beyond | Best-effort fallback with warning; open an issue if broken |
 
 When running on an unsupported version, the plugin will log one of:

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.hello09x.fakeplayer</groupId>
+        <artifactId>fakeplayer-parent</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>fakeplayer-v1_21_11</artifactId>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--
+          Paper 1.21.11 ships with Mojang-mapped class names natively (no Spigot reobf).
+          CraftBukkit OBC classes no longer carry the "v1_21_R6" version package prefix.
+          Source code uses org.bukkit.craftbukkit.* (no revision prefix).
+          The compiled output does NOT need specialsource remapping.
+          Build requirement: spigot:1.21.11-R0.1-SNAPSHOT:remapped-mojang in local M2
+          (produced by SpigotBuildTools for 1.21.11).
+        -->
+        <nms.version>1.21.11-R0.1-SNAPSHOT</nms.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.hello09x.fakeplayer</groupId>
+            <artifactId>fakeplayer-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.hello09x.fakeplayer</groupId>
+            <artifactId>fakeplayer-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>${nms.version}</version>
+            <classifier>remapped-mojang</classifier>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+    <!-- No specialsource remapping: Paper 1.21.11+ runs plugins with Mojang-mapped classes directly -->
+
+</project>
