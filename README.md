@@ -4,7 +4,9 @@
 
 English | [简体中文](README_zh.md)
 
-This is a server side plugin inspired by [Carpet-Mod](https://github.com/gnembon/fabric-carpet) for Minecraft `1.20.x` and `1.21.x` and above.
+> **Fork Note**: This is a community-maintained fork of [tanyaofei/minecraft-fakeplayer](https://github.com/tanyaofei/minecraft-fakeplayer) with forward-compatibility improvements to continue supporting newer Minecraft versions.
+
+This is a server side plugin inspired by [Carpet-Mod](https://github.com/gnembon/fabric-carpet) for Minecraft `1.20.x`, `1.21.x`, and **newer versions** (see [Version Compatibility](#version-compatibility) below).
 
 [Click me](https://youtu.be/NePaDz-P5nI) to visit a demo video.
 
@@ -15,6 +17,22 @@ This is a server side plugin inspired by [Carpet-Mod](https://github.com/gnembon
 + You can open and edit their inventory via `/fp invsee` or Right-Clicking on them
 + You can fully control their moving, jumping, attacking... What's better ? Make it periodical
 + Each player can configure his personal configuration
+
+## Version Compatibility
+
+This fork includes a **smart NMS fallback mechanism** that extends support beyond explicitly tested versions:
+
+| Minecraft Version | Status |
+|---|---|
+| 1.20.1 – 1.21.10 | Fully supported (explicit NMS bridge) |
+| Future 1.21.x (e.g. 1.21.11+) | Best-effort via 1.21.10 fallback (same NMS revision assumed) |
+| 1.22.x and beyond | Best-effort fallback with warning; open an issue if broken |
+
+When running on an unsupported version, the plugin will log one of:
+- `same minor version series` — likely to work (patch bump, same NMS)
+- `DIFFERENT minor version series` — probably broken; please open an issue
+
+To add explicit support for a new version, create a thin wrapper module following the pattern of `fakeplayer-v1_21_10` (see [CONTRIBUTING](CONTRIBUTING.md)).
 
 ## Requirements
 
