@@ -1,6 +1,10 @@
+import io.papermc.paperweight.userdev.ReobfArtifactConfiguration
+
 plugins {
     id("io.papermc.paperweight.userdev")
 }
+
+paperweight.reobfArtifactConfiguration = ReobfArtifactConfiguration.REOBF_PRODUCTION
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

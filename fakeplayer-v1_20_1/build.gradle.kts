@@ -1,13 +1,16 @@
+import io.papermc.paperweight.userdev.ReobfArtifactConfiguration
+
 plugins {
     id("io.papermc.paperweight.userdev")
 }
+
+paperweight.reobfArtifactConfiguration = ReobfArtifactConfiguration.REOBF_PRODUCTION
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-// Default reobfArtifactConfiguration is REOBF_PRODUCTION — produces Spigot-remapped JAR.
 dependencies {
     paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT")
     compileOnly(project(":fakeplayer-api"))
