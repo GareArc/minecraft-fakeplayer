@@ -12,6 +12,7 @@ dependencies {
     compileOnly("dev.jorel:commandapi-paper-core:11.0.0")
     compileOnly("com.mojang:brigadier:1.1.8")
     compileOnly("io.netty:netty-transport:4.1.82.Final")
+    compileOnly("commons-io:commons-io:2.15.1")
 
     compileOnly(files("${rootProject.projectDir}/lib/OpenInv.jar"))
     compileOnly("me.clip:placeholderapi:2.11.6")
